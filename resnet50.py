@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 from numpy.linalg import svd
 import pickle
-
+import pandas as pd
 #Network dependent operations
 m = tv.models.resnet50(pretrained=True)
 print(m)
@@ -30,10 +30,19 @@ singular_vals = [x/y for x,y in zip(singular_vals,maxs)]
 print(singular_vals)
 
 ax = None
+l = 1
+rows = []
 for x,y in zip(xcoords, singular_vals):
-    if ax is None:
-        ax = sns.scatterplot(x=x, y=y)
-    else:
-        ax = sns.scatterplot(x=x, y=y, ax=ax)
+    for (a,b) in zip(x,y):
+        rows.append({'x':a,'y':b,'source':str(l)})
+    l+=1
+df = pd.DataFrame(rows)
+print(df.head)
+ax = sns.scatterplot(x='x',y='y',legend='full',hue='source', data=df)
+df.to_csv('resnet50.csv')
+#    if ax is None:
+#        ax = sns.scatterplot(x=x, y=y, legend='Full')
+#    else:
+#        ax = sns.scatterplot(x=x, y=y, ax=ax, legend='Full')
 ax.get_figure().savefig('resnet50.pdf')
 pickle.dump( layers, open( "resnet50_stats.p", "wb" ) )
