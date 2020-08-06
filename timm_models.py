@@ -4,10 +4,11 @@ import seaborn as sns
 from numpy.linalg import svd
 import pickle
 import pandas as pd
+import sys
 
-NETWORK = 'resnet50'
+NETWORK = str(sys.argv[1])
 #Network dependent operations
-m = tv.models.resnet50(pretrained=True)
+m = getattr(tv.models, NETWORK)(pretrained=True)#tv.models.resnet50(pretrained=True)
 print(m)
 
 layers = [m.layer1, m.layer2, m.layer3, m.layer4]
