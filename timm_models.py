@@ -5,6 +5,7 @@ from numpy.linalg import svd
 import pickle
 import pandas as pd
 import sys
+import timm
 
 NETWORK = str(sys.argv[1])
 #Network dependent operations
@@ -42,10 +43,10 @@ for x,y in zip(xcoords, singular_vals):
 df = pd.DataFrame(rows)
 print(df.head)
 ax = sns.scatterplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df)
-df.to_csv('{}.csv'.format(NETWORK))
+df.to_csv('timm_{}.csv'.format(NETWORK))
 #    if ax is None:
 #        ax = sns.scatterplot(x=x, y=y, legend='Full')
 #    else:
 #        ax = sns.scatterplot(x=x, y=y, ax=ax, legend='Full')
-ax.get_figure().savefig('{}.pdf'.format(NETWORK))
-pickle.dump( layers, open( "{}_stats.p".format(NETWORK), "wb" ) )
+ax.get_figure().savefig('timm_{}.pdf'.format(NETWORK))
+pickle.dump( layers, open( "timm_{}_stats.p".format(NETWORK), "wb" ) )
