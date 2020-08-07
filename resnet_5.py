@@ -43,8 +43,8 @@ for NETWORK in tqdm(networks):
         rows.append({'i/cout':a,'\lam/\lam_max':b,'stage':str(l)})
     l+=1
   df = pd.DataFrame(rows)
-  sns.lineplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df, markers=True, ax=ax[i%2][i//3])
-  ax[i%2][i//3].set_title(NETWORK)
+  sns.lineplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df, markers=True, ax=ax[i//3][i%2])
+  ax[i//3][i%2].set_title(NETWORK)
   i += 1
 
 plt.savefig('resnets.pdf')
