@@ -44,7 +44,7 @@ for x,y in zip(xcoords, singular_vals):
     l+=1
 df = pd.DataFrame(rows)
 print(df.head)
-ax = sns.scatterplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df)
+ax = sns.lineplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df, markers=True)
 ax.set_title(NETWORK)
 df.to_csv('timm_{}.csv'.format(NETWORK))
 #    if ax is None:
