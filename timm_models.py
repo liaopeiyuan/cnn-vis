@@ -8,7 +8,7 @@ import sys
 import timm
 
 mmap = {
-      'tf_mobilenetv3_large_075' : lambda m: [x[-1].conv_pwl for x in m.blocks[1:-1]] + [m.blocks[-1][0].conv]
+      'tf_mobilenetv3_large_075' : lambda m: [x[-1].conv_pwl for x in m.blocks[1:-1]] 
 }
 NETWORK = str(sys.argv[1])
 #Network dependent operations
