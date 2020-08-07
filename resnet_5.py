@@ -6,16 +6,16 @@ import pickle
 import pandas as pd
 import sys
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 networks = ['resnet'+str(x) for x in [18,34,50,101,152]]
 
-fig, ax = plt.subplots(2, 3, figsize=(30, 30))
+fig, ax = plt.subplots(3, 2, figsize=(20, 20))
 
 i = 0
-for NETWORK in networks:
+for NETWORK in tqdm(networks):
   #Network dependent operations
   m = getattr(tv.models, NETWORK)(pretrained=True)#tv.models.resnet50(pretrained=True)
-  print(m)
 
   layers = [m.layer1, m.layer2, m.layer3, m.layer4]
 
