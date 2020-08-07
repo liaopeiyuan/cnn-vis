@@ -42,6 +42,7 @@ for x,y in zip(xcoords, singular_vals):
 df = pd.DataFrame(rows)
 print(df.head)
 ax = sns.scatterplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df)
+ax.set_title(NETWORK)
 df.to_csv('{}.csv'.format(NETWORK))
 #    if ax is None:
 #        ax = sns.scatterplot(x=x, y=y, legend='Full')

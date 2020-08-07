@@ -7,14 +7,16 @@ import pandas as pd
 import sys
 import timm
 
+mmap = {
+      'tf_mobilenetv3_large_075' : lambda m: [x[-1].conv_pwl for x in m.blocks[1:-1]] + [m.blocks[-1][0].conv]
+}
 NETWORK = str(sys.argv[1])
 #Network dependent operations
-m = getattr(tv.models, NETWORK)(pretrained=True)#tv.models.resnet50(pretrained=True)
+m = timm.create_model(NETWORK, pretrained=True)#tv.models.resnet50(pretrained=True)
 print(m)
-
-layers = [m.layer1, m.layer2, m.layer3, m.layer4]
-
-layers = [x[-1].conv2.weight.detach().numpy() for x in layers]
+#print(m.blocks[-1])
+layers = mmap[NETWORK](m)
+layers = [x.weight.detach().numpy() for x in layers]
 
 
 #Network independent operations
@@ -31,7 +33,7 @@ maxs = [x.max() for x in singular_vals]
 xcoords = [np.arange(x)/x for x in couts]
 
 singular_vals = [x/y for x,y in zip(singular_vals,maxs)]
-print(singular_vals)
+#print(singular_vals)
 
 ax = None
 l = 1
@@ -43,6 +45,7 @@ for x,y in zip(xcoords, singular_vals):
 df = pd.DataFrame(rows)
 print(df.head)
 ax = sns.scatterplot(x='i/cout',y='\lam/\lam_max',legend='full',hue='stage', data=df)
+ax.set_title(NETWORK)
 df.to_csv('timm_{}.csv'.format(NETWORK))
 #    if ax is None:
 #        ax = sns.scatterplot(x=x, y=y, legend='Full')
